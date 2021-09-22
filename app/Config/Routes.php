@@ -33,6 +33,11 @@ $routes->get('/', 'ControllerKegiatan::getAllKegiatan');
 $routes->get('pegawai', 'ControllerPegawai::getAllPegawai');
 
 $routes->get('penyedia', 'ControllerPenyedia::getAllPenyedia');
+$routes->get('penyedia/(:num)', 'ControllerPenyedia::getPenyedia/$1');
+$routes->get('penyedia/new', 'ControllerPenyedia::getPageAddPenyedia');
+$routes->post('penyedia/new', 'ControllerPenyedia::processAddPenyedia');
+$routes->post('penyedia/(:num)/edit', 'ControllerPenyedia::processUpdatePenyedia/$1');
+$routes->post('penyedia/(:num)/delete', 'ControllerPenyedia::processDeletePenyedia/$1');
 
 $routes->get('upload', 'ControllerUpload::getPageUpload');
 $routes->post('upload', 'ControllerUpload::processUpload');

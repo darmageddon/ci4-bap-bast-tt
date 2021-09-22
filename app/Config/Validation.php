@@ -40,4 +40,26 @@ class Validation
     //--------------------------------------------------------------------
     // Rules
     //--------------------------------------------------------------------
+    public $penyedia = [
+		'nama' => 'required',
+		'alamat' => 'required',
+        'pemilik' => 'required',
+        'jabatan' => 'required|max_length[256]',
+	];
+
+	public $penyedia_errors = [
+		'nama' => [
+			'required' => 'Nama tidak boleh kosong.',
+		],
+        'alamat' => [
+			'required' => 'Alamat tidak boleh kosong.',
+		],
+        'pemilik' => [
+			'required' => 'Pemilik tidak boleh kosong.',
+		],
+        'jabatan' => [
+			'required' => 'Jabatan tidak boleh kosong.',
+			'max_length' => 'Jabatan tidak boleh lebih dari 256 karakter.'
+		],
+	];
 }
