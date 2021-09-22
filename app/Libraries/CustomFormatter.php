@@ -10,8 +10,11 @@ class CustomFormatter {
         return ucwords($formatter->format($number));
     }
 
-    public static function getCurrency($number) {
-        return number_format($number, 0, ",", ".");
+    public static function getCurrency($number, $currency = true) {
+        $currencyString = $currency ? 'Rp ' : '';
+        $currencyString .= number_format($number, 0, ",", ".");
+        $currencyString .= $currency ? ',00' : '';
+        return $currencyString;
     }
 
 }

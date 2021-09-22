@@ -68,8 +68,8 @@ class XlsxReader {
         $kegiatan = null;
 
         for ($i = 0; $i < $sheetcount; $i++) {
-            $sheet = $spreadsheet->getSheet($i);
-            $highestRow = $sheet->getHighestRow();
+            $this->sheet = $spreadsheet->getSheet($i);
+            $highestRow = $this->sheet->getHighestRow();
 
             for ($row = 2; $row <= $highestRow; $row++) {
                 if ($this->getNumericValue(self::COL_NOMOR, $row) > 0) {
@@ -79,7 +79,7 @@ class XlsxReader {
                     }
 
                     $kegiatan = new DataKegiatan();
-                    $kegiatan->bulan = $this->bulan[ucfirst($sheet->getTitle())];
+                    $kegiatan->bulan = $this->bulan[ucfirst($this->sheet->getTitle())];
                     $kegiatan->kegiatan = $this->getValue(self::COL_KEGIATAN, $row);
                     $kegiatan->paket = $this->getValue(self::COL_PAKET, $row);
                     $kegiatan->prodi = $this->getValue(self::COL_PRODI, $row);

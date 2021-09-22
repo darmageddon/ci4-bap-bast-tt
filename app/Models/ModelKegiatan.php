@@ -54,6 +54,7 @@ class ModelKegiatan extends Model {
 
     public function getRecords() {
         $builder = new PostgreBuilder('v_kegiatan', $this->db);
+        $builder->orderBy('kg_id', 'ASC');
         return $builder->get()->getResult();
     }
 
