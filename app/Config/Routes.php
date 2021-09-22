@@ -32,6 +32,8 @@ $routes->get('/', 'ControllerKegiatan::getAllKegiatan');
 
 $routes->get('pegawai', 'ControllerPegawai::getAllPegawai');
 
+$routes->get('penyedia', 'ControllerPenyedia::getAllPenyedia');
+
 $routes->get('upload', 'ControllerUpload::getPageUpload');
 $routes->post('upload', 'ControllerUpload::processUpload');
 

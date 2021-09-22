@@ -72,6 +72,13 @@
             lengthChange: false
         });
 
+        $('#table-penyedia').DataTable({
+            paging: true,
+            ordering: false,
+            info: false,
+            lengthChange: false
+        });
+
         $('#download').on('show.bs.modal', function (event) {
             const sender = $(event.relatedTarget);
             var id = sender.data('id');
