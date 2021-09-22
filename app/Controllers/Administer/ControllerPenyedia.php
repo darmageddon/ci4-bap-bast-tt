@@ -42,9 +42,9 @@ class ControllerPenyedia extends BaseController
                 "successMessage" => $this->session->getFlashdata('flash_penyedia_success'),
             ]);
             echo view('Includes/Footer');
+        } else {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-        
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     public function getPageAddPenyedia() {
