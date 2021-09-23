@@ -101,9 +101,9 @@ class ControllerUpload extends BaseController
 			// Insert or Update Pegawai (Kaprodi)
 			$id_kaprodi = null;
 			if (empty($item->kaprodi->nip)) {
-				$item->unit->nip = "- NIP Kaprodi -";
-				$item->unit->nama = "- Nama Kaprodi -";
-				$item->unit->jabatan = "- Kaprodi -";
+				$item->kaprodi->nip = "- NIP Kaprodi -";
+				$item->kaprodi->nama = "- Nama Kaprodi -";
+				$item->kaprodi->jabatan = "- Kaprodi -";
 			}
 			if (isset($cachePegawai[$item->kaprodi->nip])) {
 				$id_kaprodi = $cachePegawai[$item->kaprodi->nip];
