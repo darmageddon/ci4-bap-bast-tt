@@ -16,6 +16,7 @@ class Filters extends BaseConfig
      * @var array
      */
     public $aliases = [
+        'web_auth' => \App\Filters\WebAuth::class,
     ];
 
     /**
