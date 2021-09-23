@@ -4,12 +4,12 @@
             <tr>
                 <td style="width: 25mm;">Pekerjaan</td>
                 <td style="width: 5mm;">:</td>
-                <td><?php echo $data->namaPaket; ?></td>
+                <td><?php echo $paket; ?></td>
             </tr>
             <tr>
                 <td>Unit</td>
                 <td>:</td>
-                <td><?php echo $data->prodi; ?></td>
+                <td><?php echo $prodi; ?></td>
             </tr>
             <tr>
                 <td colspan="3">Telah diterima barang/jasa sebagai berikut:</td>
@@ -26,31 +26,29 @@
                 <td style="width: 28mm">Total (Rp)</td>
                 <td>Keterangan</td>
             </tr>
-            <?php $nomor = 1; ?>
-            <?php foreach ($data->barang->getItems() as $barang): ?>
+            <?php foreach ($barang->items as $item): ?>
             <tr>
-                <td><?php echo $nomor; ?></td>
-                <td class="left"><?php echo $barang->nama; ?> (<span class="italic"><?php echo $barang->spesifikasi; ?></span>)</td>
-                <td><?php echo $barang->satuan; ?></td>
-                <td class="right"><?php echo $barang->harga; ?></td>
-                <td><?php echo $barang->jumlah; ?></td>
-                <td class="right"><?php echo $barang->getHargaTotal(); ?></td>
+                <td><?php echo $item->nomor; ?></td>
+                <td class="left"><?php echo $item->nama; ?> (<span class="italic"><?php echo $item->spesifikasi; ?></span>)</td>
+                <td><?php echo $item->satuan; ?></td>
+                <td class="right"><?php echo $item->harga->value; ?></td>
+                <td><?php echo $item->jumlah; ?></td>
+                <td class="right"><?php echo $item->total->value; ?></td>
                 <td>-</td>
             </tr>
-            <?php $nomor++; ?>
             <?php endforeach; ?>
             <tr class="bold">
                 <td colspan="5">Nilai</td>
-                <td class="right"><?php echo $data->barang->getNilaiTotal(); ?></td>
+                <td class="right"><?php echo $barang->total->value; ?></td>
                 <td></td>
             </tr>
             <tr class="bold">
                 <td colspan="5">TOTAL</td>
-                <td class="right"><?php echo $data->barang->getNilaiTotal(); ?></td>
+                <td class="right"><?php echo $barang->total->value; ?></td>
                 <td></td>
             </tr>
             <tr class="bold">
-                <td class="left" colspan="7">Terbilang: <?php echo $data->barang->getNilaiTotalString(); ?> rupiah</td>
+                <td class="left" colspan="7">Terbilang: <?php echo $barang->total->text; ?> rupiah</td>
             </tr>
         </table>
 
@@ -59,10 +57,10 @@
                 <td style="width: 50%;">
                     <p>Diterima oleh,</p>
                     <p>Unit Kerja Pemakai Barang/Jasa</p>
-                    <p><?php echo $data->prodi; ?></p>
+                    <p><?php echo $prodi; ?></p>
                 </td>
                 <td style="width: 50%;">
-                    <p>Denpasar, <?php echo $data->suratTT->getDateString(); ?></p>
+                    <p>Denpasar, <?php echo $tt->tanggal->getDate(); ?></p>
                     <p>Yang menyerahkan,</p>
                     <p>Pejabat Pembuat Komitmen (PPK) Barang/Jasa pada Fakultas Pariwisata</p>
                 </td>
@@ -71,11 +69,11 @@
                 <td style="height: 18mm;" colspan="2"></td>
             </tr>
             <tr>
-                <td><?php echo $data->kepalaUnit; ?></td>
+                <td><?php echo $unit->nama; ?></td>
                 <td>I Nyoman Sudiarta</td>
             </tr>
             <tr>
-                <td>NIP. <?php echo $data->nipKepalaUnit; ?></td>
+                <td>NIP. <?php echo $unit->nip; ?></td>
                 <td>NIP. 196503152005011001</td>
             </tr>
         </table>
@@ -94,10 +92,10 @@
                 <td style="height: 18mm;" colspan="2"></td>
             </tr>
             <tr>
-                <td><?php echo $data->kaprodi; ?></td>
+                <td><?php echo $kaprodi->nama; ?></td>
             </tr>
             <tr>
-                <td>NIP. <?php echo $data->nipKaprodi; ?></td>
+                <td>NIP. <?php echo $kaprodi->nip; ?></td>
             </tr>
         </table>
     </div>

@@ -79,14 +79,61 @@
             lengthChange: false
         });
 
+        $('#table-barang').DataTable({
+            paging: true,
+            ordering: false,
+            info: false,
+            lengthChange: false
+        });
+
         $('#download').on('show.bs.modal', function (event) {
             const sender = $(event.relatedTarget);
             var id = sender.data('id');
             $('#title-kegiatan').text(sender.data('paket'));
-            $('#link-bap').attr('href', '/surat/bap-' + id);
-            $('#link-bast').attr('href', '/surat/bast-' + id);
-            $('#link-sp').attr('href', '/surat/sp-' + id);
-            $('#link-tt').attr('href', '/surat/tt-' + id);
+            $('#link-bap').attr('href', '/kegiatan/' + id + '/surat/bap');
+            $('#link-lampiran-bap').attr('href', '/kegiatan/' + id + '/surat/lampiran-bap');
+            $('#link-bast').attr('href', '/kegiatan/' + id + '/surat/bast');
+            $('#link-lampiran-bast').attr('href', '/kegiatan/' + id + '/surat/lampiran-bast');
+            $('#link-tt').attr('href', '/kegiatan/' + id + '/surat/tanda-terima');
+        });
+
+        $('#input-sp-tanggal').datepicker({
+            format: 'dd/mm/yyyy'
+        }).on('changeDate', function(e) {
+            $(this).datepicker('hide');
+        });
+        $('#input-bap-tanggal').datepicker({
+            format: 'dd/mm/yyyy'
+        }).on('changeDate', function(e) {
+            $(this).datepicker('hide');
+        });
+        $('#input-bast-tanggal').datepicker({
+            format: 'dd/mm/yyyy'
+        }).on('changeDate', function(e) {
+            $(this).datepicker('hide');
+        });
+        $('#input-tt-tanggal').datepicker({
+            format: 'dd/mm/yyyy'
+        }).on('changeDate', function(e) {
+            $(this).datepicker('hide');
+        });
+
+        $('#input-penyedia').change(function() {
+            const penyedia = $(this).val();
+            const kegiatan = $('#dropdown-penyedia').data('kegiatan-id');
+            $('#dropdown-penyedia').attr('href', '/penyedia/' + penyedia + '?kegiatan=' + kegiatan);
+        });
+
+        $('#input-unit').change(function() {
+            const pegawai = $(this).val();
+            const kegiatan = $('#dropdown-unit').data('kegiatan-id');
+            $('#dropdown-unit').attr('href', '/pegawai/' + pegawai + '?kegiatan=' + kegiatan);
+        });
+
+        $('#input-kaprodi').change(function() {
+            const pegawai = $(this).val();
+            const kegiatan = $('#dropdown-kaprodi').data('kegiatan-id');
+            $('#dropdown-kaprodi').attr('href', '/pegawai/' + pegawai + '?kegiatan=' + kegiatan);
         });
     });
 })(jQuery)

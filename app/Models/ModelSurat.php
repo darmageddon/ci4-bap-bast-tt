@@ -18,7 +18,6 @@ class ModelSurat extends Model {
      */
 
     protected $validFields = [
-        "jenis",
         "nomor",
         "tanggal"
     ];
@@ -36,7 +35,7 @@ class ModelSurat extends Model {
         return $builder->get()->getRow();
     }
 
-    public function insertRecord($kgid, $data) {
+    public function insertRecord($kgid, $type, $data) {
         $builder = new PostgreBuilder('t_surat', $this->db);
         foreach ($this->validFields as $field) {
             if (isset($data[$field])) {
@@ -44,25 +43,35 @@ class ModelSurat extends Model {
             }
         }
         $builder->set('sr_kg_id', $kgid);
+        $builder->set('sr_jenis', $type);
         $result = $builder->insert();
         return ($this->db->affectedRows() != 0);
     }
 
-    public function updateRecord($id, $data) {
+    public function updateRecord($kgid, $type, $data) {
         $builder = $this->db->table('t_surat');
         foreach ($this->validFields as $field) {
             if (isset($data[$field])) {
                 $builder->set('sr_' . $field, $data[$field]);
             }
         }
-        $builder->where('sr_id', $id);
+        $builder->where('sr_kg_id', $kgid);
+        $builder->where('sr_jenis', $type);
         $builder->update();
         return ($this->db->affectedRows() != 0);
     }
 
-    public function deleteRecord($id) {
+    public function deleteRecord($kgid, $type) {
         $builder = $this->db->table('t_surat');
-        $builder->where('sr_id', $id);
+        $builder->where('sr_kg_id', $kgid);
+        $builder->where('sr_jenis', $type);
+        $builder->delete();
+        return ($this->db->affectedRows() != 0);
+    }
+
+    public function deleteNullRecord($kgid) {
+        $builder = $this->db->table('t_surat');
+        $builder->where('sr_kg_id', $kgid);
         $builder->delete();
         return ($this->db->affectedRows() != 0);
     }

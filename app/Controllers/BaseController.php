@@ -50,4 +50,13 @@ class BaseController extends Controller
         $this->session = \Config\Services::session();
         $this->validation = \Config\Services::validation();
     }
+
+    protected function getFlashData($key, $alt = null) {
+        return $this->session->getFlashdata('f_' . $key) ?? $alt;
+    }
+
+    protected function setFlashData($key, $value) {
+        $this->session->setFlashdata('f_' . $key, $value);
+    }
+
 }

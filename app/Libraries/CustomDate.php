@@ -8,56 +8,42 @@ class CustomDate {
     public $date = null;
     public $date_string;
 
-    public function __construct($date_string) {
+    public function __construct($date_string, $monthFirst = true) {
         $this->date_string = $date_string;
         if (preg_match('/\d{1,2}\/\d{1,2}\/\d{4}/', $date_string)) {
-            $this->date = Carbon::createFromFormat('n/j/Y', $date_string)->locale('id');
+            $format = $monthFirst ? 'n/j/Y' : 'd/m/Y';
+            $this->date = Carbon::createFromFormat($format, $date_string)->locale('id');
         } elseif (preg_match('/\d{4}-\d{1,2}-\d{1,2}/', $date_string)) {
             $this->date = Carbon::createFromFormat('Y-m-d', $date_string)->locale('id');
+        } else {
+            $this->date = Carbon::createFromFormat('Y-m-d', '1900-01-01')->locale('id');
         }
     }
 
     public function format($value = 'Y-m-d') {
-        if ($this->date !== null) {
-            return $this->date->format($value);
-        }
-        return null;
+        return $this->date->format($value);
     }
 
     public function getDate() {
-        if (!is_null($this->date)) {
-            return $this->date->day . ' ' . $this->date->monthName . ' ' . $this->date->year;
-        }
-        return '1 Januari 1900';
+        return $this->date->day . ' ' . $this->date->monthName . ' ' . $this->date->year;
     }
 
     public function getDay() {
-        if (!is_null($this->date)) {
-            return ucwords($this->date->dayName);
-        }
+        return ucwords($this->date->dayName);
     }
 
     public function getMonthString() {
-        if (!is_null($this->date)) {
-            return ucwords($this->date->monthName);
-        }
-        return "Januari";
+        return ucwords($this->date->monthName);
     }
 
     public function getDayString() {
         $formatter = new \NumberFormatter("id_ID", \NumberFormatter::SPELLOUT);
-        if (!is_null($this->date)) {
-            return ucwords($formatter->format($this->date->day));
-        }
-        return "Satu";
+        return ucwords($formatter->format($this->date->day));
     }
 
     public function getYearString() {
         $formatter = new \NumberFormatter("id_ID", \NumberFormatter::SPELLOUT);
-        if (!is_null($this->date)) {
-            return ucwords($formatter->format($this->date->year));
-        }
-        return ucwords($formatter->format(1900));
+        return ucwords($formatter->format($this->date->year));
     }
 
     public function getDateString() {

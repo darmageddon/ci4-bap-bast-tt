@@ -54,7 +54,7 @@ class ModelKegiatan extends Model {
 
     public function getRecords() {
         $builder = new PostgreBuilder('v_kegiatan', $this->db);
-        $builder->orderBy('kg_id', 'ASC');
+        $builder->orderBy('kg_bulan', 'ASC');
         return $builder->get()->getResult();
     }
 
@@ -83,6 +83,14 @@ class ModelKegiatan extends Model {
             }
         }
         $builder->where('kg_id', $id);
+        $builder->update();
+        return ($this->db->affectedRows() != 0);
+    }
+
+    public function updateNullRecord($key, $withId) {
+        $builder = new PostgreBuilder('t_kegiatan', $this->db);
+        $builder->set('kg_' . $key, 'NULL', false);
+        $builder->where('kg_' . $key, $withId);
         $builder->update();
         return ($this->db->affectedRows() != 0);
     }

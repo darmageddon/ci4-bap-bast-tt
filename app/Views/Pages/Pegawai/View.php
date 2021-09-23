@@ -1,6 +1,6 @@
 <div class="container">
     <div class="card mx-2 my-4">
-        <form action="<?php echo "/penyedia/$id"; ?>" method="post">
+        <form action="<?php echo "/pegawai/$id"; ?>" method="post">
             <div class="card-body">
                 <?php if (isset($errorMessage)) : ?>
                 <div class="row">
@@ -27,12 +27,8 @@
                             <input type="text" class="form-control" id="input-nama" name="nama" value="<?php echo $nama; ?>">
                         </div>
                         <div class="form-group">
-                            <label for="input-alamat">Alamat</label>
-                            <input type="text" class="form-control" id="input-alamat" name="alamat" value="<?php echo $alamat; ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="input-pemilik">Pemilik</label>
-                            <input type="text" class="form-control" id="input-pemilik" name="pemilik" value="<?php echo $pemilik; ?>">
+                            <label for="input-nip">NIP</label>
+                            <input type="text" class="form-control" id="input-nip" name="nip" value="<?php echo $nip; ?>">
                         </div>
                         <div class="form-group">
                             <label for="input-jabatan">Jabatan</label>

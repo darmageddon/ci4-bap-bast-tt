@@ -1,24 +1,19 @@
     <div class="container">
         <div class="card mx-2 my-4">
-            <div class="card-header">
-                <h5>Upload Excel File</h5>
-            </div>
-            <form action="./upload" method="post" enctype="multipart/form-data">
+            <form action="/upload" method="post" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-12 col-sm-6 col-lg-4">
                             <div class="form-group">
-                                <label>Excel File</label>
-                                <input type="file" class="form-control-file" name="xlsx">
+                                <label for="input-xlsx">Upload Excel (.xlsx) File</label>
+                                <input type="file" class="form-control-file" id="input-xlsx" name="xlsx">
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-4">
-                        <div class="col">
-                            <div class="form-group">
-                                <input class="btn btn-primary" type="submit" name="submit" value="Upload">
-                            </div>
-                        </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Upload</button>
                     </div>
                 </div>
             </form>

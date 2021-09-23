@@ -12,9 +12,10 @@ use App\Libraries\XlsxReader;
 
 class ControllerUpload extends BaseController
 {
-    
     public function getPageUpload() {
-        echo view('Includes/Header');
+        echo view('Includes/Header', [
+            "isPageUpload" => true,
+        ]);
         echo view('Pages/Upload');
         echo view('Includes/Footer');
     }
@@ -47,6 +48,17 @@ class ControllerUpload extends BaseController
 		
 		$reader = new XlsxReader($filename);
 
+		/*
+		if (null !== $id = $modelPegawai->insertRecord([
+				"nama" => "I Nyoman Sudiarta",
+				"nip" => "196503152005011001",
+				"jabatan" => "PPK Barang/Jasa pada Fakultas Pariwisata",
+			])) {
+
+			$cachePegawai["196503152005011001"] = $id;
+		}
+		*/
+		
 		foreach ($reader->read() as $item) {
 			// Insert Penyedia
 			$id_penyedia = null;
@@ -89,9 +101,9 @@ class ControllerUpload extends BaseController
 			// Insert or Update Pegawai (Kaprodi)
 			$id_kaprodi = null;
 			if (empty($item->kaprodi->nip)) {
-				$item->kaprodi->nip = "196503152005011001";
-				$item->kaprodi->nama = "I Nyoman Sudiarta";
-				$item->kaprodi->jabatan = "PPK Barang/Jasa pada Fakultas Pariwisata";
+				$item->unit->nip = "- NIP Kaprodi -";
+				$item->unit->nama = "- Nama Kaprodi -";
+				$item->unit->jabatan = "- Kaprodi -";
 			}
 			if (isset($cachePegawai[$item->kaprodi->nip])) {
 				$id_kaprodi = $cachePegawai[$item->kaprodi->nip];
@@ -117,29 +129,25 @@ class ControllerUpload extends BaseController
 			]);
 
 			// Insert BAP
-			$modelSurat->insertRecord($id_kegiatan, [
-				"jenis" => "bap",
+			$modelSurat->insertRecord($id_kegiatan, "bap", [
 				"nomor" => $item->bap->nomor,
 				"tanggal" => (new CustomDate($item->bap->tanggal))->format()
 			]);
 
 			// Insert BAST
-			$modelSurat->insertRecord($id_kegiatan, [
-				"jenis" => "bast",
+			$modelSurat->insertRecord($id_kegiatan, "bast", [
 				"nomor" => $item->bast->nomor,
 				"tanggal" => (new CustomDate($item->bast->tanggal))->format()
 			]);
 
 			// Insert SP
-			$modelSurat->insertRecord($id_kegiatan, [
-				"jenis" => "sp",
+			$modelSurat->insertRecord($id_kegiatan, "sp", [
 				"nomor" => $item->sp->nomor,
 				"tanggal" => (new CustomDate($item->sp->tanggal))->format()
 			]);
 
 			// Insert Tanda Terima
-			$modelSurat->insertRecord($id_kegiatan, [
-				"jenis" => "tt",
+			$modelSurat->insertRecord($id_kegiatan, "tt", [
 				"nomor" => $item->tt->nomor,
 				"tanggal" => (new CustomDate($item->tt->tanggal))->format()
 			]);

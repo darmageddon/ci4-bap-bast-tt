@@ -91,6 +91,13 @@ class ModelBarang extends Model {
         $builder->delete();
         return ($this->db->affectedRows() != 0);
     }
+
+    public function deleteNullRecord($kgid) {
+        $builder = new PostgreBuilder('t_barang', $this->db);
+        $builder->where('brg_kg_id', $kgid);
+        $builder->delete();
+        return ($this->db->affectedRows() != 0);
+    }
     
     public function emptyTable() {
         $builder = new PostgreBuilder('t_barang', $this->db);

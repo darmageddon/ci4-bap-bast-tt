@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title><?php echo $title; ?></title>
     <style>
         @font-face{
             font-family: "Bookman Old Style";
             font-style: normal;
             font-weight: 400;
-            src: url(<?php echo FCPATH . 'fonts/BookmanOldStyle.ttf';?>) format("truetype");
+            src: url(<?php echo FCPATH . 'assets/fonts/BookmanOldStyle.ttf';?>) format("truetype");
         }
         @font-face {
             font-family: 'Bookman Old Style Italic';
             font-style: italic;
             font-weight: 400;
-            src: url(<?php echo FCPATH . 'fonts/BookmanOldStyle-Italic.ttf';?>) format('truetype');
+            src: url(<?php echo FCPATH . 'assets/fonts/BookmanOldStyle-Italic.ttf';?>) format('truetype');
         }
         @font-face {
             font-family: 'Bookman Old Style Bold';
             font-style: normal;
             font-weight: 700;
-            src: url(<?php echo FCPATH . 'fonts/BookmanOldStyle-Bold.ttf';?>) format('truetype');
+            src: url(<?php echo FCPATH . 'assets/fonts/BookmanOldStyle-Bold.ttf';?>) format('truetype');
         }
         @page {
             margin: <?php echo $margin; ?>;
@@ -104,7 +105,7 @@
         <table>
             <tr>
                 <td rowspan="7" style="vertical-align: bottom; width: 28mm; text-align: left;">
-                    <img style="width: 24mm; margin: 3mm 2mm;" src="<?php echo FCPATH . 'images/image1.png';?>"/>
+                    <img style="width: 24mm; margin: 3mm 2mm;" src="<?php echo FCPATH . 'assets/img/logo_unud.png';?>"/>
                 </td>
             </tr>
             <tr style="text-align: center">

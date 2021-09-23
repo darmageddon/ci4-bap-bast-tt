@@ -3,13 +3,13 @@
         <!-- Nomor Surat -->
         <div style="text-align: center;">
             <p class="bold">BERITA ACARA SERAH TERIMA BARANG/PEKERJAAN</p>
-            <p><?php echo $data->suratBAST->nomor ;?></p>
+            <p><?php echo $bast->nomor ;?></p>
         </div>
         <!-- Nomor Surat END -->
 
         <div style="text-align: justify;">
             
-            <p class="line-12-8">Pada hari ini, <?php echo $data->suratBAST->getDayName(); ?> tanggal <?php echo $data->suratBAST->getDayString(); ?> bulan <?php echo $data->suratBAST->getMonthName(); ?> tahun <?php echo $data->suratBAST->getYearString(); ?>, bertempat di DENPASAR, kami yang bertanda tangan dibawah ini :</p>
+            <p class="line-12-8">Pada hari ini, <?php echo $bast->tanggal->getDay(); ?> tanggal <?php echo $bast->tanggal->getDayString(); ?> bulan <?php echo $bast->tanggal->getMonthString(); ?> tahun <?php echo $bast->tanggal->getYearString(); ?>, bertempat di DENPASAR, kami yang bertanda tangan dibawah ini :</p>
 
             <table class="default-table-1">
                 <tr>
@@ -38,17 +38,17 @@
                 <tr>
                     <td>Nama</td>
                     <td>:</td>
-                    <td><?php echo $data->namaPemilik; ?></td>
+                    <td><?php echo $penyedia->pemilik; ?></td>
                 </tr>
                 <tr>
                     <td>Jabatan</td>
                     <td>:</td>
-                    <td><?php echo $data->jabatanPemilik; ?> <?php echo $data->namaPenyedia;?></td>
+                    <td><?php echo $penyedia->jabatan; ?> <?php echo $penyedia->nama; ?></td>
                 </tr>
                 <tr>
                     <td>Alamat</td>
                     <td>:</td>
-                    <td><?php echo $data->alamatPenyedia;?></td>
+                    <td><?php echo $penyedia->alamat; ?></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -57,7 +57,7 @@
                 </tr>
             </table>
 
-            <p class="line-12-8">Berdasarkan Berita Acara Pemeriksaan Barang/Pekerjaan Nomor : $<?php echo $data->suratBAP->nomor ;?> tanggal <?php echo $data->suratBAP->getDateString() ;?> dengan ini menyatakan mengadakan serah terima barang/pekerjaan dengan ketentuan sebagai berikut :</p>
+            <p class="line-12-8">Berdasarkan Berita Acara Pemeriksaan Barang/Pekerjaan Nomor : $<?php echo $bast->nomor ;?> tanggal <?php echo $bast->tanggal->getDate(); ?> dengan ini menyatakan mengadakan serah terima barang/pekerjaan dengan ketentuan sebagai berikut :</p>
 
             <table class="default-table-1">
                 <tr>
@@ -68,31 +68,31 @@
                     <td></td>
                     <td style="width: 38mm;">Pekerjaan</td>
                     <td style="width: 5mm;">:</td>
-                    <td><?php echo $data->namaPaket;?></td>
+                    <td><?php echo $paket;?></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>Surat Pesanan (SP)</td>
                     <td>:</td>
-                    <td>Nomor : <?php echo $data->suratSP->nomor ;?>, tanggal <?php echo $data->suratSP->getDateString() ;?></td>
+                    <td>Nomor : <?php echo $sp->nomor ;?>, tanggal <?php echo $sp->tanggal->getDate() ;?></td>
                 </tr>
                 <tr>
                 <td></td>
                     <td>Nilai Pesanan</td>
                     <td>:</td>
-                    <td>Rp <?php echo $data->getNilaiKwitansi(); ?> (<span class="italic"><?php echo $data->getNilaiKwitansiString(); ?> rupiah</span>)</td>
+                    <td>Rp <?php echo $kwitansi->number; ?> (<span class="italic"><?php echo $kwitansi->text; ?> rupiah</span>)</td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>Dilaksanakan oleh</td>
                     <td>:</td>
-                    <td><?php echo $data->namaPenyedia;?></td>
+                    <td><?php echo $penyedia->nama; ?></td>
                 </tr>
                 <tr>
                 <td></td>
                     <td>Alamat</td>
                     <td>:</td>
-                    <td><?php echo $data->alamatPenyedia;?></td>
+                    <td><?php echo $penyedia->alamat; ?></td>
                 </tr>
                 <tr>
                     <td>2.</td>
@@ -108,7 +108,7 @@
                     <td style="width: 10mm;"></td>
                     <td style="width: 45%;" rowspan="2">
                         <p>Untuk dan atas nama Penyedia</p>
-                        <p><?php echo $data->namaPenyedia;?></p>
+                        <p><?php echo $penyedia->nama;?></p>
                     </td>
                 </tr>
                 <tr>
@@ -121,12 +121,12 @@
                 <tr>
                     <td>I Nyoman Sudiarta</td>
                     <td></td>
-                    <td><?php echo $data->namaPemilik;?></td>
+                    <td><?php echo $penyedia->pemilik;?></td>
                 </tr>
                 <tr>
                     <td>NIP. 196503152005011001</td>
                     <td></td>
-                    <td><?php echo $data->jabatanPemilik;?></td>
+                    <td><?php echo $penyedia->jabatan; ?></td>
                 </tr>
             </table>
         </div>

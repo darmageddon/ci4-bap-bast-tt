@@ -28,16 +28,34 @@ $routes->setAutoRoute(false);
  * Route Definitions
  * --------------------------------------------------------------------
  */
-$routes->get('/', 'ControllerKegiatan::getAllKegiatan');
+$routes->get('/', 'ControllerKegiatan::getPageAllKegiatan');
+$routes->get('kegiatan/(:num)', 'ControllerKegiatan::getPageKegiatan/$1');
+$routes->get('kegiatan/new', 'ControllerKegiatan::getPageAddKegiatan');
+$routes->post('kegiatan/(:num)', 'ControllerKegiatan::processActionKegiatan/$1');
+$routes->post('kegiatan/new', 'ControllerKegiatan::processAddKegiatan');
 
-$routes->get('pegawai', 'ControllerPegawai::getAllPegawai');
+$routes->get('kegiatan/(:num)/barang/new', 'ControllerBarang::getPageAddKegiatan/$1');
+$routes->post('kegiatan/(:num)/barang/new', 'ControllerBarang::processAddBarang/$1');
+$routes->get('kegiatan/(:num)/barang/(:num)', 'ControllerBarang::getPageBarang/$1/$2');
+$routes->post('kegiatan/(:num)/barang/(:num)', 'ControllerBarang::processActionBarang/$1/$2');
 
-$routes->get('penyedia', 'ControllerPenyedia::getAllPenyedia');
-$routes->get('penyedia/(:num)', 'ControllerPenyedia::getPenyedia/$1');
+$routes->get('kegiatan/(:num)/surat/bap', 'ControllerSurat::getDownloadBAP/$1');
+$routes->get('kegiatan/(:num)/surat/lampiran-bap', 'ControllerSurat::getDownloadLampiranBAP/$1');
+$routes->get('kegiatan/(:num)/surat/bast', 'ControllerSurat::getDownloadBAST/$1');
+$routes->get('kegiatan/(:num)/surat/lampiran-bast', 'ControllerSurat::getDownloadLampiranBAST/$1');
+$routes->get('kegiatan/(:num)/surat/tanda-terima', 'ControllerSurat::getDownloadTT/$1');
+
+$routes->get('pegawai', 'ControllerPegawai::getPageAllPegawai');
+$routes->get('pegawai/(:num)', 'ControllerPegawai::getPagePegawai/$1');
+$routes->get('pegawai/new', 'ControllerPegawai::getPageAddPegawai');
+$routes->post('pegawai/new', 'ControllerPegawai::processAddPegawai');
+$routes->post('pegawai/(:num)', 'ControllerPegawai::processActionPegawai/$1');
+
+$routes->get('penyedia', 'ControllerPenyedia::getPageAllPenyedia');
+$routes->get('penyedia/(:num)', 'ControllerPenyedia::getPagePenyedia/$1');
 $routes->get('penyedia/new', 'ControllerPenyedia::getPageAddPenyedia');
 $routes->post('penyedia/new', 'ControllerPenyedia::processAddPenyedia');
-$routes->post('penyedia/(:num)/edit', 'ControllerPenyedia::processUpdatePenyedia/$1');
-$routes->post('penyedia/(:num)/delete', 'ControllerPenyedia::processDeletePenyedia/$1');
+$routes->post('penyedia/(:num)', 'ControllerPenyedia::processActionPenyedia/$1');
 
 $routes->get('upload', 'ControllerUpload::getPageUpload');
 $routes->post('upload', 'ControllerUpload::processUpload');
