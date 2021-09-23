@@ -104,7 +104,7 @@ class ControllerBarang extends BaseController
             $this->setFlashdata('b_' . $key, $value);
         }
 
-        return redirect()->to(base_url("/kegiatan/$kgid"));
+        return redirect()->to(base_url("/kegiatan/$kgid/barang/$id"));
     }
 
     private function processDeleteBarang($kgid, $id) {
