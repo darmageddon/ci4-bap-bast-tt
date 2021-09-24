@@ -3,7 +3,7 @@
         <div class="card-header">
             <h5>Tambah Penyedia</h5>
         </div>
-        <form action="/penyedia/new" method="post">
+        <form action="<?php echo "/penyedia/new$from"; ?>" method="post">
             <div class="card-body">
                 <?php if (isset($errorMessage)) : ?>
                 <div class="row">

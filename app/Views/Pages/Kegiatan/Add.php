@@ -76,7 +76,9 @@
                                 <div class="input-group-append">
                                     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#" id="dropdown-penyedia" data-kegiatan-id="0">View / Edit</a>
+                                        <?php if (!empty($listPenyedia)): ?>
+                                        <a class="dropdown-item" href="<?php echo "/penyedia/$penyedia->id?kegiatan=0"; ?>" id="dropdown-penyedia" data-kegiatan-id="0">View / Edit</a>
+                                        <?php endif; ?>
                                         <a class="dropdown-item" href="<?php echo "/penyedia/new?kegiatan=0" ?>">Tambah Penyedia</a>
                                     </div>
                                 </div>
@@ -93,7 +95,9 @@
                                 <div class="input-group-append">
                                     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#" id="dropdown-unit" data-kegiatan-id="0">View / Edit</a>
+                                        <?php if (!empty($listPegawai)): ?>
+                                        <a class="dropdown-item" href="<?php echo "/pegawai/$unit->id?kegiatan=0"; ?>" id="dropdown-unit" data-kegiatan-id="0">View / Edit</a>
+                                        <?php endif; ?>
                                         <a class="dropdown-item" href="<?php echo "/pegawai/new?kegiatan=0" ?>">Tambah Unit</a>
                                     </div>
                                 </div>
@@ -110,7 +114,9 @@
                                 <div class="input-group-append">
                                     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#" id="dropdown-kaprodi" data-kegiatan-id="0">View / Edit</a>
+                                        <?php if (!empty($listPegawai)): ?>
+                                        <a class="dropdown-item" href="<?php echo "/pegawai/$kaprodi->id?kegiatan=0"; ?>" id="dropdown-kaprodi" data-kegiatan-id="0">View / Edit</a>
+                                        <?php endif; ?>
                                         <a class="dropdown-item" href="<?php echo "/pegawai/new?kegiatan=0" ?>">Tambah Kaprodi</a>
                                     </div>
                                 </div>

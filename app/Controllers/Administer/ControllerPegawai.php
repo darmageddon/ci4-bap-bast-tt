@@ -32,10 +32,12 @@ class ControllerPegawai extends BaseController
     public function getPagePegawai($id) {
         $model = new ModelPegawai();
         if (null !== $item = $model->getRecord($id)) {
+            $from = $this->request->getGet('kegiatan');
             echo view('Includes/Header', [
                 "isPagePegawai" => true,
             ]);
             echo view('Pages/Pegawai/View', [
+                "from" => isset($from) ? "?kegiatan=$from" : "",
                 "id" => $id,
                 "nama" => $this->getFlashdata('pegawai_nama', $item->pgw_nama),
                 "nip" => $this->getFlashdata('pegawai_nip', $item->pgw_nip),
@@ -50,10 +52,12 @@ class ControllerPegawai extends BaseController
     }
 
     public function getPageAddPegawai() {
+        $from = $this->request->getGet('kegiatan');
         echo view('Includes/Header', [
             "isPagePegawai" => true,
         ]);
         echo view('Pages/Pegawai/Add', [
+            "from" => isset($from) ? "?kegiatan=$from" : "",
             "nama" => $this->getFlashdata('pegawai_nama'),
             "nip" => $this->getFlashdata('pegawai_nip'),
             "jabatan" => $this->getFlashdata('pegawai_jabatan'),
@@ -67,10 +71,16 @@ class ControllerPegawai extends BaseController
             return trim($item);
         }, $this->request->getPost());
 
+        $from = $this->request->getGet('kegiatan');
+        $redirect = null;
+        if (isset($from)) {
+            $redirect = $from > 0 ? "/kegiatan/$from" : "/kegiatan/new";
+        }
+
         if ($this->validation->run($data, 'pegawai')) {
             $model = new ModelPegawai();
             if (null !== $id = $model->insertRecord($data)) {
-                return redirect()->to(base_url('/pegawai'));
+                return redirect()->to(base_url($redirect ?? '/pegawai'));
             }
             $this->setFlashdata('pegawai_error', 'Gagal menambahkan Pegawai.');
         } else {
@@ -83,7 +93,7 @@ class ControllerPegawai extends BaseController
             $this->setFlashdata('pegawai_' . $key, $value);
         }
 
-        return redirect()->to(base_url('/pegawai/new'));
+        return redirect()->to(base_url($redirect ?? '/pegawai/new'));
     }
 
     public function processActionPegawai($id) {
@@ -101,11 +111,17 @@ class ControllerPegawai extends BaseController
             return trim($item);
         }, $this->request->getPost());
 
+        $from = $this->request->getGet('kegiatan');
+        $redirect = null;
+        if (isset($from)) {
+            $redirect = $from > 0 ? "/kegiatan/$from" : "/kegiatan/new";
+        }
+
         if ($this->validation->run($data, 'pegawai')) {
             $model = new ModelPegawai();
             if ($model->updateRecord($id, $data)) {
                 $this->setFlashdata('pegawai_success', 'Berhasil mengupdate Pegawai.');
-                return redirect()->to(base_url("/pegawai/$id"));
+                return redirect()->to(base_url($redirect ?? "/pegawai/$id"));
             }
             $this->setFlashdata('pegawai_error', 'Gagal mengupdate Pegawai.');
         } else {
@@ -118,19 +134,25 @@ class ControllerPegawai extends BaseController
             $this->setFlashdata('pegawai_' . $key, $value);
         }
 
-        return redirect()->to(base_url("/pegawai/$id"));
+        return redirect()->to(base_url($redirect ?? "/pegawai/$id"));
     }
 
     private function processDeletePegawai($id) {
+        $from = $this->request->getGet('kegiatan');
+        $redirect = null;
+        if (isset($from)) {
+            $redirect = $from > 0 ? "/kegiatan/$from" : "/kegiatan/new";
+        }
+
         $modelKegiatan = new ModelKegiatan();
         $modelPegawai = new ModelPegawai();
         $modelKegiatan->updateNullRecord('unit', $id);
         $modelKegiatan->updateNullRecord('kaprodi', $id);
         if ($modelPegawai->deleteRecord($id)) {
-            return redirect()->to(base_url('/pegawai'));
+            return redirect()->to(base_url($redirect ?? '/pegawai'));
         }
         $this->setFlashdata('pegawai_error', 'Gagal mengupdate Pegawai.');
-        return redirect()->to(base_url("/pegawai/$id"));
+        return redirect()->to(base_url($redirect ?? "/pegawai/$id"));
     }
 
 }

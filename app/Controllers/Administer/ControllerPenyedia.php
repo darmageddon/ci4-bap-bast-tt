@@ -32,10 +32,13 @@ class ControllerPenyedia extends BaseController
     public function getPagePenyedia($id) {
         $model = new ModelPenyedia();
         if (null !== $item = $model->getRecord($id)) {
+            $from = $this->request->getGet('kegiatan');
+
             echo view('Includes/Header', [
                 "isPagePenyedia" => true,
             ]);
             echo view('Pages/Penyedia/View', [
+                "from" => isset($from) ? "?kegiatan=$from" : "",
                 "id" => $id,
                 "nama" => $this->getFlashdata('penyedia_nama', $item->pyd_nama),
                 "alamat" => $this->getFlashdata('penyedia_alamat', $item->pyd_alamat),
@@ -51,10 +54,12 @@ class ControllerPenyedia extends BaseController
     }
 
     public function getPageAddPenyedia() {
+        $from = $this->request->getGet('kegiatan');
         echo view('Includes/Header', [
             "isPagePenyedia" => true,
         ]);
         echo view('Pages/Penyedia/Add', [
+            "from" => isset($from) ? "?kegiatan=$from" : "",
             "nama" => $this->getFlashdata('penyedia_nama'),
             "alamat" => $this->getFlashdata('penyedia_alamat'),
             "pemilik" => $this->getFlashdata('penyedia_pemilik'),
@@ -69,10 +74,16 @@ class ControllerPenyedia extends BaseController
             return trim($item);
         }, $this->request->getPost());
 
+        $from = $this->request->getGet('kegiatan');
+        $redirect = null;
+        if (isset($from)) {
+            $redirect = $from > 0 ? "/kegiatan/$from" : "/kegiatan/new";
+        }
+
         if ($this->validation->run($data, 'penyedia')) {
             $model = new ModelPenyedia();
             if (null !== $id = $model->insertRecord($data)) {
-                return redirect()->to(base_url('/penyedia'));
+                return redirect()->to(base_url($redirect ?? "/kegiatan"));
             }
             $this->setFlashdata('penyedia_error', 'Gagal menambahkan Penyedia.');
         } else {
@@ -85,7 +96,7 @@ class ControllerPenyedia extends BaseController
             $this->setFlashdata('penyedia_' . $key, $value);
         }
 
-        return redirect()->to(base_url('/penyedia/new'));
+        return redirect()->to(base_url($redirect ?? "/kegiatan/new"));
     }
 
     public function processActionPenyedia($id) {
@@ -103,11 +114,17 @@ class ControllerPenyedia extends BaseController
             return trim($item);
         }, $this->request->getPost());
 
+        $from = $this->request->getGet('kegiatan');
+        $redirect = null;
+        if (isset($from)) {
+            $redirect = $from > 0 ? "/kegiatan/$from" : "/kegiatan/new";
+        }
+
         if ($this->validation->run($data, 'penyedia')) {
             $model = new ModelPenyedia();
             if ($model->updateRecord($id, $data)) {
                 $this->setFlashdata('penyedia_success', 'Berhasil mengupdate Penyedia.');
-                return redirect()->to(base_url("/penyedia/$id"));
+                return redirect()->to(base_url($redirect ?? "/penyedia/$id"));
             }
             $this->setFlashdata('penyedia_error', 'Gagal mengupdate Penyedia.');
         } else {
@@ -120,18 +137,24 @@ class ControllerPenyedia extends BaseController
             $this->setFlashdata('penyedia_' . $key, $value);
         }
 
-        return redirect()->to(base_url("/penyedia/$id"));
+        return redirect()->to(base_url($redirect ?? "/penyedia/$id"));
     }
 
     private function processDeletePenyedia($id) {
+        $from = $this->request->getGet('kegiatan');
+        $redirect = null;
+        if (isset($from)) {
+            $redirect = $from > 0 ? "/kegiatan/$from" : "/kegiatan/new";
+        }
+
         $modelKegiatan = new ModelKegiatan();
         $modelPenyedia = new ModelPenyedia();
         $modelKegiatan->updateNullRecord('penyedia', $id);
         if ($modelPenyedia->deleteRecord($id)) {
-            return redirect()->to(base_url('/penyedia'));
+            return redirect()->to(base_url($redirect ?? '/penyedia'));
         }
         $this->setFlashdata('penyedia_error', 'Gagal mengupdate Penyedia.');
-        return redirect()->to(base_url("/penyedia/$id"));
+        return redirect()->to(base_url($redirect ?? "/penyedia/$id"));
     }
 
 }

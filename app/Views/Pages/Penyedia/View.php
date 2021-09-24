@@ -1,6 +1,6 @@
 <div class="container">
     <div class="card mx-2 my-4">
-        <form action="<?php echo "/penyedia/$id"; ?>" method="post">
+        <form action="<?php echo "/penyedia/$id$from"; ?>" method="post">
             <div class="card-body">
                 <?php if (isset($errorMessage)) : ?>
                 <div class="row">

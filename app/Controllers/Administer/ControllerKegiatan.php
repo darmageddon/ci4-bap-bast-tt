@@ -150,13 +150,13 @@ class ControllerKegiatan extends BaseController
             "prodi" => $this->getFlashdata('k_prodi'),
             "nilai_kwitansi" => $this->getFlashdata('k_nilai_kwitansi'),
             "penyedia" => (object) [
-                "id" => $this->getFlashdata('k_penyedia'),
+                "id" => $this->getFlashdata('k_penyedia', !empty($listPenyedia) ? $listPenyedia[0]->id : ""),
             ],
             "unit" => (object) [
-                "id" => $this->getFlashdata('k_unit'),
+                "id" => $this->getFlashdata('k_unit', !empty($listPegawai) ? $listPegawai[0]->id : ""),
             ],
             "kaprodi" => (object) [
-                "id" => $this->getFlashdata('k_kaprodi'),
+                "id" => $this->getFlashdata('k_kaprodi', !empty($listPegawai) ? $listPegawai[0]->id : ""),
             ],
             "bap" => (object) [
                 "nomor" => $this->getFlashdata('k_bap_nomor'),
