@@ -131,25 +131,25 @@ class ControllerUpload extends BaseController
 			// Insert BAP
 			$modelSurat->insertRecord($id_kegiatan, "bap", [
 				"nomor" => $item->bap->nomor,
-				"tanggal" => (new CustomDate($item->bap->tanggal))->format()
+				"tanggal" => CustomDate::withFormat($item->bap->tanggal)
 			]);
 
 			// Insert BAST
 			$modelSurat->insertRecord($id_kegiatan, "bast", [
 				"nomor" => $item->bast->nomor,
-				"tanggal" => (new CustomDate($item->bast->tanggal))->format()
+				"tanggal" => CustomDate::withFormat($item->bast->tanggal)
 			]);
 
 			// Insert SP
 			$modelSurat->insertRecord($id_kegiatan, "sp", [
 				"nomor" => $item->sp->nomor,
-				"tanggal" => (new CustomDate($item->sp->tanggal))->format()
+				"tanggal" => CustomDate::withFormat($item->sp->tanggal)
 			]);
 
 			// Insert Tanda Terima
 			$modelSurat->insertRecord($id_kegiatan, "tt", [
 				"nomor" => $item->tt->nomor,
-				"tanggal" => (new CustomDate($item->tt->tanggal))->format()
+				"tanggal" => CustomDate::withFormat($item->tt->tanggal)
 			]);
 
 			foreach ($item->barang as $barang) {

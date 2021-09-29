@@ -135,18 +135,18 @@ class ControllerSurat extends BaseController
             ],
             "sp" => (object) [
                 "nomor" => $item->sp_nomor,
-                "tanggal" => new CustomDate($item->sp_tanggal),
+                "tanggal" => CustomDate::create($item->sp_tanggal),
             ],
             "bap" => (object) [
                 "nomor" => $item->bap_nomor,
-                "tanggal" => new CustomDate($item->bap_tanggal),
+                "tanggal" => CustomDate::create($item->bap_tanggal),
             ],
             "bast" => (object) [
                 "nomor" => $item->bast_nomor,
-                "tanggal" => new CustomDate($item->bast_tanggal),
+                "tanggal" => CustomDate::create($item->bast_tanggal),
             ],
             "tt" => (object) [
-                "tanggal" => new CustomDate($item->tt_tanggal),
+                "tanggal" => CustomDate::create($item->tt_tanggal),
             ],
             "barang" => (object) [
                 "items" => $barang,

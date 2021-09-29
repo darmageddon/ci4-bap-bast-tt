@@ -96,18 +96,18 @@ class ControllerKegiatan extends BaseController
                 ],
                 "bap" => (object) [
                     "nomor" => $this->getFlashdata('k_bap_nomor', $item->bap_nomor),
-                    "tanggal" => $this->getFlashdata('k_bap_tanggal', (new CustomDate($item->bap_tanggal))->format('d/m/Y')),
+                    "tanggal" => $this->getFlashdata('k_bap_tanggal', CustomDate::withFormat($item->bap_tanggal, 'd/m/Y')),
                 ],
                 "bast" => (object) [
                     "nomor" => $this->getFlashdata('k_bast_nomor', $item->bast_nomor),
-                    "tanggal" => $this->getFlashdata('k_bast_tanggal', (new CustomDate($item->bast_tanggal))->format('d/m/Y')),
+                    "tanggal" => $this->getFlashdata('k_bast_tanggal', CustomDate::withFormat($item->bast_tanggal, 'd/m/Y')),
                 ],
                 "sp" => (object) [
                     "nomor" => $this->getFlashdata('k_sp_nomor', $item->sp_nomor),
-                    "tanggal" => $this->getFlashdata('k_sp_tanggal', (new CustomDate($item->sp_tanggal))->format('d/m/Y')),
+                    "tanggal" => $this->getFlashdata('k_sp_tanggal', CustomDate::withFormat($item->sp_tanggal, 'd/m/Y')),
                 ],
                 "tt" => (object) [
-                    "tanggal" => $this->getFlashdata('k_tt_tanggal', (new CustomDate($item->tt_tanggal))->format('d/m/Y')),
+                    "tanggal" => $this->getFlashdata('k_tt_tanggal', CustomDate::withFormat($item->tt_tanggal, 'd/m/Y')),
                 ],
                 "errorMessage" => $this->getFlashdata('k_error'),
                 "successMessage" => $this->getFlashdata('k_success'),
@@ -190,21 +190,21 @@ class ControllerKegiatan extends BaseController
 
             $data_sp = [
                 'nomor' => $data['sp_nomor'],
-                'tanggal' => $data['sp_tanggal'],
+                'tanggal' => CustomDate::withFormat($data['sp_tanggal'], 'Y-m-d', false),
             ];
 
             $data_bap = [
                 'nomor' => $data['bap_nomor'],
-                'tanggal' => $data['bap_tanggal'],
+                'tanggal' => CustomDate::withFormat($data['bap_tanggal'], 'Y-m-d', false),
             ];
 
             $data_bast = [
                 'nomor' => $data['bast_nomor'],
-                'tanggal' => $data['bast_tanggal'],
+                'tanggal' => CustomDate::withFormat($data['bast_tanggal'], 'Y-m-d', false),
             ];
 
             $data_tt = [
-                'tanggal' => $data['tt_tanggal'],
+                'tanggal' => CustomDate::withFormat($data['tt_tanggal'], 'Y-m-d', false),
             ];
 
             if (null !== $id = $modelKegiatan->insertRecord($data)) {
@@ -253,21 +253,21 @@ class ControllerKegiatan extends BaseController
 
             $data_sp = [
                 'nomor' => $data['sp_nomor'],
-                'tanggal' => $data['sp_tanggal'],
+                'tanggal' => CustomDate::withFormat($data['sp_tanggal'], 'Y-m-d', false),
             ];
 
             $data_bap = [
                 'nomor' => $data['bap_nomor'],
-                'tanggal' => $data['bap_tanggal'],
+                'tanggal' => CustomDate::withFormat($data['bap_tanggal'], 'Y-m-d', false),
             ];
 
             $data_bast = [
                 'nomor' => $data['bast_nomor'],
-                'tanggal' => $data['bast_tanggal'],
+                'tanggal' => CustomDate::withFormat($data['bast_tanggal'], 'Y-m-d', false),
             ];
 
             $data_tt = [
-                'tanggal' => $data['tt_tanggal'],
+                'tanggal' => CustomDate::withFormat($data['tt_tanggal'], 'Y-m-d', false),
             ];
             
             if ($modelKegiatan->updateRecord($id, $data)

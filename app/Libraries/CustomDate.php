@@ -8,16 +8,23 @@ class CustomDate {
     public $date = null;
     public $date_string;
 
-    public function __construct($date_string, $monthFirst = true) {
-        $this->date_string = $date_string;
+    public static function create($date_string, $monthFirst = true) {
+        $format = 'Y-m-d';
         if (preg_match('/\d{1,2}\/\d{1,2}\/\d{4}/', $date_string)) {
             $format = $monthFirst ? 'n/j/Y' : 'd/m/Y';
-            $this->date = Carbon::createFromFormat($format, $date_string)->locale('id');
         } elseif (preg_match('/\d{4}-\d{1,2}-\d{1,2}/', $date_string)) {
-            $this->date = Carbon::createFromFormat('Y-m-d', $date_string)->locale('id');
         } else {
-            $this->date = Carbon::createFromFormat('Y-m-d', '1900-01-01')->locale('id');
+            $date_string = '1900-01-01';
         }
+        $customDate = new self();
+        $customDate->date_string = $date_string;
+        $customDate->date = Carbon::createFromFormat($format, $date_string)->locale('id');
+        return $customDate;
+    }
+
+    public static function withFormat($date_string, $formatString = 'Y-m-d', $monthFirst = true) {
+        $customDate = self::create($date_string, $monthFirst);
+        return $customDate->format($formatString);
     }
 
     public function format($value = 'Y-m-d') {
