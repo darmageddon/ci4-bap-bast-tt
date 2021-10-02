@@ -104,7 +104,7 @@ class XlsxReader {
                     $surat = $this->getValue(self::COL_JENIS_SURAT, $row);
                     if (strtoupper($surat) == 'BAP') {
                         $kegiatan->bap->nomor = $this->getValue(self::COL_NO_SURAT, $row);
-                        $kegiatan->bap->tanggal = $this->getValue(self::COL_TANGGAL_SURAT, $row);
+                        $kegiatan->bap->tanggal = $this->getFormattedValue(self::COL_TANGGAL_SURAT, $row);
                     }
                     if (strtoupper($surat) == 'BAST') {
                         $kegiatan->bast->nomor = $this->getValue(self::COL_NO_SURAT, $row);
@@ -142,6 +142,9 @@ class XlsxReader {
 
     private function getValue($col, $row) {
         if (!is_null($this->sheet)) {
+            if ($this->sheet->getCellByColumnAndRow($col, $row)->isFormula()) {
+                return $this->sheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();
+            }
             return $this->sheet->getCellByColumnAndRow($col, $row)->getValue();
         }
         return null;
@@ -155,7 +158,15 @@ class XlsxReader {
     }
 
     private function getFormattedValue($col, $row) {
-        return $this->sheet->getCellByColumnAndRow($col, $row)->getFormattedValue();
+        if (!is_null($this->sheet)) {
+            if ($this->sheet->getCellByColumnAndRow($col, $row)->isFormula()) {
+                $calculatedValue = $this->sheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();
+                $date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($calculatedValue);
+                return $date->format('d/m/Y');
+            }
+            return $this->sheet->getCellByColumnAndRow($col, $row)->getFormattedValue();
+        }
+        return null;
     }
 
 }
