@@ -66,6 +66,7 @@ class XlsxReader {
         $this->data = [];
         $spreadsheet = $reader->load($this->filename);
         $sheetcount = $spreadsheet->getSheetCount();
+        $count = 0;
 
         for ($i = 0; $i < $sheetcount; $i++) {
             $this->sheet = $spreadsheet->getSheet($i);
@@ -131,11 +132,10 @@ class XlsxReader {
                     }
                 }
             }
-
-            if (!is_null($kegiatan)) {
-                array_push($this->data, $kegiatan);
-                $kegiatan = null;
-            }
+        }
+        if (!is_null($kegiatan)) {
+            array_push($this->data, $kegiatan);
+            $kegiatan = null;
         }
         return $this->data;
 	}
