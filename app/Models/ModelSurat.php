@@ -34,6 +34,14 @@ class ModelSurat extends Model {
         $builder->where('sr_jenis', $type);
         return $builder->get()->getRow();
     }
+    
+    public function insertOrUpdateRecord($kgid, $type, $data) {
+        $builder = new PostgreBuilder('t_surat', $this->db);
+        if (null !== $this->getRecord($kgid, $type)) {
+            return $this->updateRecord($kgid, $type, $data);
+        }
+        return $this->insertRecord($kgid, $type, $data);
+    }
 
     public function insertRecord($kgid, $type, $data) {
         $builder = new PostgreBuilder('t_surat', $this->db);

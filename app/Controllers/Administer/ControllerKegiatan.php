@@ -269,12 +269,16 @@ class ControllerKegiatan extends BaseController
             $data_tt = [
                 'tanggal' => CustomDate::withFormat($data['tt_tanggal'], 'Y-m-d', false),
             ];
+
+            if ($sp = $modelSurat->getRecord($id, 'sp')) {
+
+            }
             
             if ($modelKegiatan->updateRecord($id, $data)
-                    && $modelSurat->updateRecord($id, 'sp', $data_sp)
-                    && $modelSurat->updateRecord($id, 'bap', $data_bap)
-                    && $modelSurat->updateRecord($id, 'bast', $data_bast)
-                    && $modelSurat->updateRecord($id, 'tt', $data_bast)
+                    && $modelSurat->insertOrUpdateRecord($id, 'sp', $data_sp)
+                    && $modelSurat->insertOrUpdateRecord($id, 'bap', $data_bap)
+                    && $modelSurat->insertOrUpdateRecord($id, 'bast', $data_bast)
+                    && $modelSurat->insertOrUpdateRecord($id, 'tt', $data_bast)
                     ) {
                     
                 $this->setFlashdata('k_success', 'Berhasil mengupdate Kegiatan.');
