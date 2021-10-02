@@ -66,11 +66,11 @@ class XlsxReader {
         $this->data = [];
         $spreadsheet = $reader->load($this->filename);
         $sheetcount = $spreadsheet->getSheetCount();
-        $kegiatan = null;
 
         for ($i = 0; $i < $sheetcount; $i++) {
             $this->sheet = $spreadsheet->getSheet($i);
             $highestRow = $this->sheet->getHighestRow();
+            $kegiatan = null;
 
             for ($row = 2; $row <= $highestRow; $row++) {
                 if ($this->getNumericValue(self::COL_NOMOR, $row) > 0) {
