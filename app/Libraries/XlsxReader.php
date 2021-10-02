@@ -80,7 +80,12 @@ class XlsxReader {
                     }
 
                     $kegiatan = new DataKegiatan();
-                    $kegiatan->bulan = $this->bulan[ucfirst($this->sheet->getTitle())];
+                    $bulan = ucfirst(strtolower($this->sheet->getTitle()));
+                    if (array_key_exists($bulan, $this->bulan)) {
+                        $kegiatan->bulan = $this->bulan[$bulan];
+                    } else {
+                        $kegiatan->bulan = 1;
+                    }
                     $kegiatan->kegiatan = $this->getValue(self::COL_KEGIATAN, $row);
                     $kegiatan->paket = $this->getValue(self::COL_PAKET, $row);
                     $kegiatan->prodi = $this->getValue(self::COL_PRODI, $row);
