@@ -26,13 +26,11 @@
                                         <?php echo $item->paket; ?>
                                     </a>
                                 </td>
-                                <td>
-                                    <a href="<?php echo "/kegiatan/$item->id"; ?>">
-                                        <?php echo $item->nomor_sp; ?>
-                                    </a>
-                                </td>
+                                <td><?php echo $item->nomor_sp; ?></td>
                                 <td><?php echo $item->kwitansi; ?></td>
                                 <td>
+                                    <a href="<?php echo "/kegiatan/$item->id"; ?>">View</a>
+                                    <span>|</span>
                                     <a data-toggle="modal" href="#download" role="button" data-id="<?php echo $item->id; ?>" data-paket="<?php echo $item->paket; ?>">Download</a>
                                 </td>
                             </tr>

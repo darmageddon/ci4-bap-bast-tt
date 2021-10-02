@@ -35,18 +35,18 @@ class XlsxReader {
     
 
     private $bulan = [
-        'Januari' => 1,
-        'Februari' => 2, 'Pebruari' => 2,
-        'Maret' => 3,
-        'April' => 4,
-        'Mei' => 5,
-        'Juni' => 6,
-        'Juli' => 7,
-        'Agustus' => 8,
-        'September' => 9,
-        'Oktober' => 10,
-        'November' => 11, 'Nopember' => 11,
-        'Desember' => 12
+        'januari' => 1,
+        'februari' => 2, 'pebruari' => 2,
+        'maret' => 3,
+        'april' => 4,
+        'mei' => 5,
+        'juni' => 6,
+        'juli' => 7,
+        'agustus' => 8,
+        'september' => 9,
+        'oktober' => 10,
+        'november' => 11, 'nopember' => 11,
+        'desember' => 12
     ];
 
     private $filename;
@@ -66,17 +66,22 @@ class XlsxReader {
         $this->data = [];
         $spreadsheet = $reader->load($this->filename);
         $sheetcount = $spreadsheet->getSheetCount();
-        $count = 0;
 
         $kegiatan = null;
+        $itembarang = null;
+        $tmpkegiatan = [];
+        $tmppenyedia = [];
+        $tmpunit = [];
+        $tmpkaprodi = [];
+        $tmpbarang = [];
 
         for ($i = 0; $i < $sheetcount; $i++) {
             $this->sheet = $spreadsheet->getSheet($i);
             $highestRow = $this->sheet->getHighestRow();
 
-            $bulan = ucfirst(strtolower($this->sheet->getTitle()));
+            $bulan = strtolower($this->sheet->getTitle());
             $indexBulan = 1;
-            if (array_key_exists($bulan, $this->bulan)) {
+            if (isset($this->bulan[$bulan])) {
                 $indexBulan = $this->bulan[$bulan];
             }
 
@@ -87,75 +92,99 @@ class XlsxReader {
                         array_push($this->data, $kegiatan);
                     }
                     $kegiatan = new DataKegiatan();
+                    $tmpkegiatan = [];
+                    $tmpbarang = [];
                 }
 
                 if (!is_null($kegiatan)) {
                     $kegiatan->bulan = $indexBulan;
 
-                    if (empty($kegiatan->kegiatan)) {
-                        $kegiatan->kegiatan = $this->getValue(self::COL_KEGIATAN, $row);
-                    }
-                    if (empty($kegiatan->paket)) {
-                        $kegiatan->paket = $this->getValue(self::COL_PAKET, $row);
-                    }
-                    if (empty($kegiatan->prodi)) {
-                        $kegiatan->prodi = $this->getValue(self::COL_PRODI, $row);
-                    }
-                    if(empty($kegiatan->nilai_kwitansi)) {
-                        $kegiatan->nilai_kwitansi = $this->getNumericValue(self::COL_KWITANSI, $row);
-                    }
-                    if (empty($kegiatan->penyedia->nama)) {
-                        $kegiatan->penyedia->nama = $this->getValue(self::COL_NAMA_PENYEDIA, $row);
-                    }
-                    if (empty($kegiatan->penyedia->pemilik)) {
-                        $kegiatan->penyedia->pemilik = $this->getValue(self::COL_NAMA_PEMILIK, $row);
-                    }
-                    if (empty($kegiatan->penyedia->jabatan)) {
-                        $kegiatan->penyedia->jabatan = $this->getValue(self::COL_JABATAN, $row);
-                    }
-                    if (empty($kegiatan->penyedia->alamat)) {
-                        $kegiatan->penyedia->alamat = $this->getValue(self::COL_ALAMAT, $row);
-                    }
-                    if (empty($kegiatan->unit->nama)) {
-                        $kegiatan->unit->nama = $this->getValue(self::COL_PEMAKAI, $row);
-                    }
-                    if (empty($kegiatan->unit->nip)) {
-                        $kegiatan->unit->nip = $this->getValue(self::COL_NIP_PEMAKAI, $row);
-                    }
-                    if (empty($kegiatan->kaprodi->nama)) {
-                        $kegiatan->kaprodi->nama = $this->getValue(self::COL_KAPRODI, $row);
-                    }
-                    if (empty($kegiatan->kaprodi->nip)) {
-                        $kegiatan->kaprodi->nip = $this->getValue(self::COL_NIP_KAPRODI, $row);
+                    $datakegiatan = [
+                        'kegiatan' => $this->getValue(self::COL_KEGIATAN, $row),
+                        'paket' => $this->getValue(self::COL_PAKET, $row),
+                        'prodi' => $this->getValue(self::COL_PRODI, $row),
+                        'nilai_kwitansi' => $this->getNumericValue(self::COL_KWITANSI, $row),
+                    ];
+
+                    $datapenyedia = [
+                        'nama' => $this->getValue(self::COL_NAMA_PENYEDIA, $row),
+                        'pemilik' => $this->getValue(self::COL_NAMA_PEMILIK, $row),
+                        'jabatan' => $this->getValue(self::COL_JABATAN, $row),
+                        'alamat' => $this->getValue(self::COL_ALAMAT, $row),
+                    ];
+
+                    $dataunit = [
+                        'nama' => $this->getValue(self::COL_PEMAKAI, $row),
+                        'nip' => $this->getValue(self::COL_NIP_PEMAKAI, $row),
+                    ];
+
+                    $datakaprodi = [
+                        'nama' => $this->getValue(self::COL_KAPRODI, $row),
+                        'nip' => $this->getValue(self::COL_NIP_KAPRODI, $row),
+                    ];
+
+                    foreach ($datakegiatan as $key => $value) {
+                        if (!empty($value)) {
+                            $tmpkegiatan[$key] = $value;
+                        } elseif (isset($tmpkegiatan[$key])) {
+                            $datakegiatan[$key] = $tmpkegiatan[$key];
+                        }
+                        $kegiatan->$key = $datakegiatan[$key];
                     }
 
-                    $surat = $this->getValue(self::COL_JENIS_SURAT, $row);
-                    if (strtoupper($surat) == 'BAP') {
-                        $kegiatan->bap->nomor = $this->getValue(self::COL_NO_SURAT, $row);
-                        $kegiatan->bap->tanggal = $this->getFormattedValue(self::COL_TANGGAL_SURAT, $row);
-                    }
-                    if (strtoupper($surat) == 'BAST') {
-                        $kegiatan->bast->nomor = $this->getValue(self::COL_NO_SURAT, $row);
-                        $kegiatan->bast->tanggal = $this->getFormattedValue(self::COL_TANGGAL_SURAT, $row);
-                    }
-                    if (strtoupper($surat) == 'TT') {
-                        $kegiatan->tt->nomor = $this->getValue(self::COL_NO_SURAT, $row);
-                        $kegiatan->tt->tanggal = $this->getFormattedValue(self::COL_TANGGAL_SURAT, $row);
-                    }
-                    if (strtoupper($surat) == 'SP') {
-                        $kegiatan->sp->nomor = $this->getValue(self::COL_NO_SURAT, $row);
-                        $kegiatan->sp->tanggal = $this->getFormattedValue(self::COL_TANGGAL_SURAT, $row);
+                    foreach ($datapenyedia as $key => $value) {
+                        if (!empty($value)) {
+                            $tmppenyedia[$key] = $value;
+                        } elseif (isset($tmppenyedia[$key])) {
+                            $datapenyedia[$key] = $tmppenyedia[$key];
+                        }
+                        $kegiatan->penyedia->$key = $datapenyedia[$key];
                     }
 
-                    if ("" != $barang = $this->getValue(self::COL_NAMA_BARANG, $row)) {
-                        $data_barang = new DataBarang();
-                        $data_barang->nama = $barang;
-                        $data_barang->spesifikasi = $this->getValue(self::COL_SPESIFIKASI, $row);
-                        $data_barang->kategori = $this->getValue(self::COL_KATEGORI, $row);
-                        $data_barang->jumlah = $this->getNumericValue(self::COL_JUMLAH, $row);
-                        $data_barang->satuan = $this->getValue(self::COL_SATUAN, $row);
-                        $data_barang->harga = $this->getNumericValue(self::COL_HARGA, $row);
-                        array_push($kegiatan->barang, $data_barang);
+                    foreach ($dataunit as $key => $value) {
+                        if (!empty($value)) {
+                            $tmpunit[$key] = $value;
+                        } elseif (isset($tmpunit[$key])) {
+                            $dataunit[$key] = $tmpunit[$key];
+                        }
+                        $kegiatan->unit->$key = $dataunit[$key];
+                    }
+
+                    foreach ($datakaprodi as $key => $value) {
+                        if (!empty($value)) {
+                            $tmpkaprodi[$key] = $value;
+                        } elseif (isset($tmpkaprodi[$key])) {
+                            $datakaprodi[$key] = $tmpkaprodi[$key];
+                        }
+                        $kegiatan->kaprodi->$key = $datakaprodi[$key];
+                    }
+
+                    if ($surat = strtolower($this->getValue(self::COL_JENIS_SURAT, $row))) {
+                        if (in_array($surat, ['sp', 'bap', 'bast', 'tt'])) {
+                            $kegiatan->$surat->nomor = $this->getValue(self::COL_NO_SURAT, $row);
+                            $kegiatan->$surat->tanggal = $this->getDate(self::COL_TANGGAL_SURAT, $row);
+                        }
+                    }
+
+                    if ($barang = $this->getValue(self::COL_NAMA_BARANG, $row)) {
+                        $brg = new DataBarang();
+                        $brg->nama = $barang;
+                        $databrg = [
+                            'spesifikasi' => $this->getValue(self::COL_SPESIFIKASI, $row),
+                            'kategori' => $this->getValue(self::COL_KATEGORI, $row),
+                            'jumlah' => $this->getNumericValue(self::COL_JUMLAH, $row),
+                            'satuan' => $this->getValue(self::COL_SATUAN, $row),
+                            'harga' => $this->getNumericValue(self::COL_HARGA, $row),
+                        ];
+                        foreach ($databrg as $key => $value) {
+                            if (!empty($value)) {
+                                $tmpbarang[$key] = $value;
+                            } elseif (isset($tmpbarang[$key])) {
+                                $databrg[$key] = $tmpbarang[$key];
+                            }
+                            $brg->$key = $databrg[$key];
+                        }
+                        array_push($kegiatan->barang, $brg);
                     }
                 }
 
@@ -163,6 +192,12 @@ class XlsxReader {
                     if (!is_null($kegiatan)) {
                         array_push($this->data, $kegiatan);
                         $kegiatan = null;
+                        $itembarang = null;
+                        $tmpkegiatan = [];
+                        $tmppenyedia = [];
+                        $tmpunit = [];
+                        $tmpkaprodi = [];
+                        $tmpbarang = [];
                     }
                 }
             }
@@ -187,12 +222,27 @@ class XlsxReader {
         return 0;
     }
 
+    private function getDate($col, $row) {
+        if (!is_null($this->sheet)) {
+            $value = null;
+            if ($this->sheet->getCellByColumnAndRow($col, $row)->isFormula()) {
+                $value = $this->sheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();
+            } else {
+                $value = $this->sheet->getCellByColumnAndRow($col, $row)->getValue();
+            }
+            if (!empty($value)) {
+                if ($date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value)) {
+                    return $date->format('d/m/Y');
+                }
+            }
+        }
+        return null;
+    }
+
     private function getFormattedValue($col, $row) {
         if (!is_null($this->sheet)) {
             if ($this->sheet->getCellByColumnAndRow($col, $row)->isFormula()) {
-                $calculatedValue = $this->sheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();
-                $date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($calculatedValue);
-                return $date->format('d/m/Y');
+                return $this->sheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();
             }
             return $this->sheet->getCellByColumnAndRow($col, $row)->getFormattedValue();
         }
