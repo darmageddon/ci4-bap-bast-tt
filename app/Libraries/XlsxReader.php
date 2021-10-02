@@ -25,13 +25,14 @@ class XlsxReader {
     private const COL_NAMA_BARANG   = 15; // O
     private const COL_JUMLAH        = 16; // P
     private const COL_SATUAN        = 17; // Q
-    private const COL_SPESIFIKASI   = 18; // R
-    private const COL_PEMAKAI       = 19; // S
-    private const COL_NIP_PEMAKAI   = 20; // T
-    private const COL_KAPRODI       = 21; // U
-    private const COL_NIP_KAPRODI   = 22; // V
+    private const COL_HARGA         = 18; // R
+    private const COL_SPESIFIKASI   = 19; // S
+    private const COL_PEMAKAI       = 20; // T
+    private const COL_NIP_PEMAKAI   = 21; // U
+    private const COL_KAPRODI       = 22; // V
+    private const COL_NIP_KAPRODI   = 23; // W
 
-    private const COL_HARGA         = 23; // W
+    
 
     private $bulan = [
         'Januari' => 1,
