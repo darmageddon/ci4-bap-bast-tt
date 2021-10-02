@@ -68,40 +68,67 @@ class XlsxReader {
         $sheetcount = $spreadsheet->getSheetCount();
         $count = 0;
 
+        $kegiatan = null;
+
         for ($i = 0; $i < $sheetcount; $i++) {
             $this->sheet = $spreadsheet->getSheet($i);
             $highestRow = $this->sheet->getHighestRow();
-            $kegiatan = null;
+
+            $bulan = ucfirst(strtolower($this->sheet->getTitle()));
+            $indexBulan = 1;
+            if (array_key_exists($bulan, $this->bulan)) {
+                $indexBulan = $this->bulan[$bulan];
+            }
 
             for ($row = 2; $row <= $highestRow; $row++) {
+
                 if ($this->getNumericValue(self::COL_NOMOR, $row) > 0) {
                     if (!is_null($kegiatan)) {
                         array_push($this->data, $kegiatan);
-                        $kegiatan = null;
                     }
-
                     $kegiatan = new DataKegiatan();
-                    $bulan = ucfirst(strtolower($this->sheet->getTitle()));
-                    if (array_key_exists($bulan, $this->bulan)) {
-                        $kegiatan->bulan = $this->bulan[$bulan];
-                    } else {
-                        $kegiatan->bulan = 1;
-                    }
-                    $kegiatan->kegiatan = $this->getValue(self::COL_KEGIATAN, $row);
-                    $kegiatan->paket = $this->getValue(self::COL_PAKET, $row);
-                    $kegiatan->prodi = $this->getValue(self::COL_PRODI, $row);
-                    $kegiatan->nilai_kwitansi = $this->getNumericValue(self::COL_KWITANSI, $row);
-                    $kegiatan->penyedia->nama = $this->getValue(self::COL_NAMA_PENYEDIA, $row);
-                    $kegiatan->penyedia->pemilik = $this->getValue(self::COL_NAMA_PEMILIK, $row);
-                    $kegiatan->penyedia->jabatan = $this->getValue(self::COL_JABATAN, $row);
-                    $kegiatan->penyedia->alamat = $this->getValue(self::COL_ALAMAT, $row);
-                    $kegiatan->unit->nama = $this->getValue(self::COL_PEMAKAI, $row);
-                    $kegiatan->unit->nip = $this->getValue(self::COL_NIP_PEMAKAI, $row);
-                    $kegiatan->kaprodi->nama = $this->getValue(self::COL_KAPRODI, $row);
-                    $kegiatan->kaprodi->nip = $this->getValue(self::COL_NIP_KAPRODI, $row);
                 }
 
                 if (!is_null($kegiatan)) {
+                    $kegiatan->bulan = $indexBulan;
+
+                    if (empty($kegiatan->kegiatan)) {
+                        $kegiatan->kegiatan = $this->getValue(self::COL_KEGIATAN, $row);
+                    }
+                    if (empty($kegiatan->paket)) {
+                        $kegiatan->paket = $this->getValue(self::COL_PAKET, $row);
+                    }
+                    if (empty($kegiatan->prodi)) {
+                        $kegiatan->prodi = $this->getValue(self::COL_PRODI, $row);
+                    }
+                    if(empty($kegiatan->nilai_kwitansi)) {
+                        $kegiatan->nilai_kwitansi = $this->getNumericValue(self::COL_KWITANSI, $row);
+                    }
+                    if (empty($kegiatan->penyedia->nama)) {
+                        $kegiatan->penyedia->nama = $this->getValue(self::COL_NAMA_PENYEDIA, $row);
+                    }
+                    if (empty($kegiatan->penyedia->pemilik)) {
+                        $kegiatan->penyedia->pemilik = $this->getValue(self::COL_NAMA_PEMILIK, $row);
+                    }
+                    if (empty($kegiatan->penyedia->jabatan)) {
+                        $kegiatan->penyedia->jabatan = $this->getValue(self::COL_JABATAN, $row);
+                    }
+                    if (empty($kegiatan->penyedia->alamat)) {
+                        $kegiatan->penyedia->alamat = $this->getValue(self::COL_ALAMAT, $row);
+                    }
+                    if (empty($kegiatan->unit->nama)) {
+                        $kegiatan->unit->nama = $this->getValue(self::COL_PEMAKAI, $row);
+                    }
+                    if (empty($kegiatan->unit->nip)) {
+                        $kegiatan->unit->nip = $this->getValue(self::COL_NIP_PEMAKAI, $row);
+                    }
+                    if (empty($kegiatan->kaprodi->nama)) {
+                        $kegiatan->kaprodi->nama = $this->getValue(self::COL_KAPRODI, $row);
+                    }
+                    if (empty($kegiatan->kaprodi->nip)) {
+                        $kegiatan->kaprodi->nip = $this->getValue(self::COL_NIP_KAPRODI, $row);
+                    }
+
                     $surat = $this->getValue(self::COL_JENIS_SURAT, $row);
                     if (strtoupper($surat) == 'BAP') {
                         $kegiatan->bap->nomor = $this->getValue(self::COL_NO_SURAT, $row);
@@ -131,11 +158,14 @@ class XlsxReader {
                         array_push($kegiatan->barang, $data_barang);
                     }
                 }
+
+                if ($row == $highestRow) {
+                    if (!is_null($kegiatan)) {
+                        array_push($this->data, $kegiatan);
+                        $kegiatan = null;
+                    }
+                }
             }
-        }
-        if (!is_null($kegiatan)) {
-            array_push($this->data, $kegiatan);
-            $kegiatan = null;
         }
         return $this->data;
 	}

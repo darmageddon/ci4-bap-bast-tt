@@ -19,7 +19,8 @@ class ControllerKegiatan extends BaseController
                     "id" => $item->kg_id,
                     "paket" => $item->kg_paket,
                     "bulan" => CustomDate::getMonthName($item->kg_bulan),
-                    "kwitansi" => CustomFormatter::getCurrency($item->kg_nilai_kwitansi)
+                    "kwitansi" => CustomFormatter::getCurrency($item->kg_nilai_kwitansi),
+                    "nomor_sp" => $item->sp_nomor,
                 ];
             },
             (new ModelKegiatan())->getRecords()

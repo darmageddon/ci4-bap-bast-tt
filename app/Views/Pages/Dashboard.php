@@ -12,6 +12,7 @@
                             <tr>
                                 <th>Bulan</th>
                                 <th>Paket</th>
+                                <th>Nomor SP</th>
                                 <th>Nilai Kwitansi</th>
                                 <th></th>
                             </tr>
@@ -25,6 +26,7 @@
                                         <?php echo $item->paket; ?>
                                     </a>
                                 </td>
+                                <td><?php echo $item->nomor_sp; ?></td>
                                 <td><?php echo $item->kwitansi; ?></td>
                                 <td>
                                     <a data-toggle="modal" href="#download" role="button" data-id="<?php echo $item->id; ?>" data-paket="<?php echo $item->paket; ?>">Download</a>
